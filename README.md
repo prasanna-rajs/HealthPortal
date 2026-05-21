@@ -32,7 +32,7 @@ https://prasanna-rajs.github.io/HealthPortal/
 ### Disease Information
 ### Interactive disease cards displaying symptoms and prevention tips.
 ![Disease Page](Screenshots/Diseases-page.png)
-![Disease Page](Screenshots/Disease-info.png)
+![Disease Page](Screenshots/Disease-infos.png)
 
 
 ### Life style guide
