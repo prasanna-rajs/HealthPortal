@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mental Health Awareness - Stress management, meditation, wellness cards, support resources and positive quotes." />
+  <title>Mental Health - HealthPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Awareness banner at top */
+    .mh-awareness-banner {
+      background: linear-gradient(90deg, #1e3a5f, #0A66C2);
+      padding: 0.9rem 0;
+      text-align: center;
+    }
+    .mh-awareness-banner p {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .mh-awareness-banner strong { color: #7dd3fc; }
+
+    /* Stress tip cards with numbered icons */
+    .stress-tip {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .stress-tip:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .stress-tip::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+    }
+    .stress-tip .tip-icon-large { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .stress-tip h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .stress-tip p { font-size: 0.88rem; color: var(--text-medium); margin: 0; line-height: 1.7; }
+
+    /* Breathing exercise visual */
+    .breathing-card {
+      background: linear-gradient(135deg, #0d1b2a, var(--primary-blue));
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      text-align: center;
+      color: white;
+    }
+    .breathing-card h3 { color: white; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .breathing-card p { color: rgba(255,255,255,0.8); margin-bottom: 2rem; }
+    .breathing-steps {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .breath-step {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      min-width: 130px;
+      text-align: center;
+    }
+    .breath-step .num {
+      font-family: var(--font-primary);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #7dd3fc;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .breath-step .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.2rem;
+    }
+    .breath-step .desc { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+
+    /* Meditation steps */
+    .meditation-step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      margin-bottom: 1rem;
+    }
+    .meditation-step:hover { transform: translateX(6px); box-shadow: var(--shadow-md); }
+    .meditation-step .step-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      width: 55px;
+      height: 55px;
+      background: var(--bg-light-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .meditation-step h4 { font-size: 1rem; margin-bottom: 0.35rem; }
+    .meditation-step p { font-size: 0.87rem; color: var(--text-medium); margin: 0; line-height: 1.6; }
+
+    /* Wellness score card */
+    .wellness-check-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .wellness-check-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .wellness-check-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .wellness-check-icon {
+      width: 50px; height: 50px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .wellness-check-card h4 { font-size: 0.95rem; color: var(--text-dark); }
+    .wellness-check-card p { font-size: 0.85rem; color: var(--text-medium); line-height: 1.6; margin-bottom: 0.75rem; }
+    .wellness-bar { height: 6px; background: #eef2f7; border-radius: 3px; overflow: hidden; }
+    .wellness-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal)); }
+    .wellness-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-light); margin-top: 0.35rem; }
+
+    /* Quote cards */
+    .quote-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      border-left: 4px solid var(--primary-blue);
+      transition: var(--transition);
+    }
+    .quote-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .quote-text {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text-dark);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      font-family: Georgia, serif;
+    }
+    .quote-author { font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; color: var(--primary-blue); }
+
+    /* Warning signs checklist */
+    .warning-sign {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .warning-sign:last-child { border-bottom: none; }
+    .warning-sign .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent-red);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .warning-sign p { font-size: 0.9rem; color: var(--text-medium); margin: 0; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== MENTAL HEALTH AWARENESS BANNER ===== -->
+  <div class="mh-awareness-banner" role="alert">
+    <div class="container">
+      <p>🧠 Mental health is just as important as physical health. <strong>It's okay to ask for help.</strong> — iCall India: 9152987821 | Vandrevala Foundation: 1860-2662-345</p>
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏥</div>
+        <span><strong>Health</strong>Portal</span>
+      </a>
+      <div class="nav-toggle" tabindex="0" role="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="diseases.html">Diseases</a>
+        <a href="lifestyle.html">Lifestyle</a>
+        <a href="vaccination.html">Vaccination</a>
+        <a href="mental-health.html" class="active">Mental Health</a>
+        <a href="contact.html" class="nav-emergency">📞 Emergency</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span>›</span><span>Mental Health</span>
+      </nav>
+      <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;">Mental Wellness</span>
+      <h1>Your Mind Matters</h1>
+      <p>Mental health is a fundamental part of overall well-being. Learn about stress management, meditation, and how to take care of your emotional health every day.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== STRESS MANAGEMENT TIPS ===== -->
+    <section class="section bg-white" aria-labelledby="stress-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Manage Stress</span>
+          <h2 class="section-title" id="stress-heading">Stress Management Tips</h2>
+          <p class="section-subtitle">Chronic stress can harm your immune system, heart, and mental health. These evidence-backed strategies can help you manage stress effectively.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">🧘</span>
+            <h3>Practice Mindfulness</h3>
+            <p>Mindfulness means paying attention to the present moment without judgment. Even 5–10 minutes of mindful breathing daily can reduce anxiety and improve focus significantly.</p>
+          </div>
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">🏃</span>
+            <h3>Exercise Regularly</h3>
+            <p>Physical activity releases endorphins — natural mood boosters. A 30-minute walk, yoga session, or any movement you enjoy can dramatically reduce stress hormones like cortisol.</p>
+          </div>
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">📓</span>
+            <h3>Journaling</h3>
+            <p>Writing down your thoughts and feelings helps process emotions and gain perspective. Spend 10 minutes daily writing about what's bothering you or what you're grateful for.</p>
+          </div>
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">👥</span>
+            <h3>Stay Connected</h3>
+            <p>Strong social relationships are one of the best protectors of mental health. Talk to a friend, family member, or trusted person when you feel overwhelmed.</p>
+          </div>
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">🌿</span>
+            <h3>Spend Time in Nature</h3>
+            <p>Studies show that spending even 20 minutes in nature — a park, garden, or outdoors — lowers cortisol levels and improves mood and cognitive function.</p>
+          </div>
+
+          <div class="stress-tip">
+            <span class="tip-icon-large">📵</span>
+            <h3>Digital Detox</h3>
+            <p>Constant news and social media scrolling increases anxiety. Set boundaries — designate "screen-free" periods during meals, before bed, and on weekends.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BREATHING EXERCISE ===== -->
+    <section class="section bg-gray">
+      <div class="container">
+        <div class="grid grid-2" style="gap:3rem;align-items:center;">
+          <div>
+            <span class="section-label">Quick Relief</span>
+            <h2 class="section-title">The 4-7-8 Breathing Technique</h2>
+            <p style="color:var(--text-medium);line-height:1.8;margin-bottom:1.5rem;">
+              Developed by Dr. Andrew Weil, the 4-7-8 breathing technique acts as a natural tranquilizer for the nervous system. It can help reduce anxiety, manage cravings, and help you fall asleep faster.
+            </p>
+            <p style="color:var(--text-medium);line-height:1.8;margin-bottom:1.5rem;">
+              Practice this <strong>twice daily</strong> or whenever you feel overwhelmed. With regular practice, results improve over weeks. It's completely free and can be done anywhere.
+            </p>
+            <div class="info-box">
+              <div class="icon">💡</div>
+              <div>
+                <h4>Tip for Beginners</h4>
+                <p style="margin:0;font-size:0.9rem;">Start with just 2–3 cycles. Over time, work up to 4 cycles per session. Always breathe out completely before starting.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="breathing-card" role="figure" aria-label="4-7-8 breathing technique steps">
+            <h3>🌬️ 4-7-8 Breathing Technique</h3>
+            <p>Repeat this cycle 4 times for immediate calming effect</p>
+            <div class="breathing-steps">
+              <div class="breath-step">
+                <div class="num">4</div>
+                <div class="label">Inhale</div>
+                <div class="desc">Breathe in slowly through your nose</div>
+              </div>
+              <div class="breath-step">
+                <div class="num">7</div>
+                <div class="label">Hold</div>
+                <div class="desc">Hold your breath comfortably</div>
+              </div>
+              <div class="breath-step">
+                <div class="num">8</div>
+                <div class="label">Exhale</div>
+                <div class="desc">Breathe out through your mouth</div>
+              </div>
+            </div>
+            <p style="margin-top:1.75rem;font-size:0.85rem;color:rgba(255,255,255,0.65);">Repeat 4 times • Twice daily • Anywhere, anytime</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MEDITATION SECTION ===== -->
+    <section class="section bg-white" aria-labelledby="meditation-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Inner Peace</span>
+          <h2 class="section-title" id="meditation-heading">Getting Started with Meditation</h2>
+          <p class="section-subtitle">You don't need to be an expert to meditate. Follow these simple steps to build a daily meditation habit that will transform your mental health.</p>
+        </div>
+
+        <div class="grid grid-2" style="gap:3rem;align-items:start;">
+          <div>
+            <div class="meditation-step">
+              <div class="step-icon">🕐</div>
+              <div>
+                <h4>Start Small — Just 5 Minutes</h4>
+                <p>Begin with just 5 minutes a day. Consistency matters more than duration. Morning meditation sets a positive tone for the entire day.</p>
+              </div>
+            </div>
+            <div class="meditation-step">
+              <div class="step-icon">🪑</div>
+              <div>
+                <h4>Find a Comfortable Position</h4>
+                <p>Sit in a chair or on the floor with your back straight. You don't need to sit in lotus position — just be comfortable and alert, not too relaxed.</p>
+              </div>
+            </div>
+            <div class="meditation-step">
+              <div class="step-icon">👁️</div>
+              <div>
+                <h4>Close Your Eyes & Focus on Breath</h4>
+                <p>Close your eyes and focus on the sensation of breathing. Notice how air enters and exits your nose. When your mind wanders, gently return focus to your breath.</p>
+              </div>
+            </div>
+            <div class="meditation-step">
+              <div class="step-icon">💭</div>
+              <div>
+                <h4>Don't Fight Your Thoughts</h4>
+                <p>It's completely normal for thoughts to arise during meditation. Don't try to stop them. Simply observe them like clouds passing in the sky, then return to your breath.</p>
+              </div>
+            </div>
+            <div class="meditation-step">
+              <div class="step-icon">📅</div>
+              <div>
+                <h4>Build a Daily Habit</h4>
+                <p>Link meditation to an existing habit — right after waking up, before breakfast, or before bed. Use reminder apps if needed. Benefits compound with consistency.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- Types of meditation -->
+            <div style="background:var(--bg-light-blue);border-radius:var(--radius-md);padding:2rem;">
+              <h3 style="margin-bottom:1.5rem;">🧘 Types of Meditation</h3>
+              <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="background:white;border-radius:10px;padding:1.25rem;box-shadow:var(--shadow-sm);">
+                  <h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Mindfulness Meditation</h4>
+                  <p style="font-size:0.85rem;margin:0;color:var(--text-medium);">Focus on breath and body sensations. Best for beginners. Apps like Calm and Headspace guide you through this.</p>
+                </div>
+                <div style="background:white;border-radius:10px;padding:1.25rem;box-shadow:var(--shadow-sm);">
+                  <h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Body Scan Meditation</h4>
+                  <p style="font-size:0.85rem;margin:0;color:var(--text-medium);">Mentally scan from head to toe, noticing sensations without judgment. Excellent for releasing physical tension and anxiety.</p>
+                </div>
+                <div style="background:white;border-radius:10px;padding:1.25rem;box-shadow:var(--shadow-sm);">
+                  <h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Loving-Kindness Meditation</h4>
+                  <p style="font-size:0.85rem;margin:0;color:var(--text-medium);">Send feelings of love and compassion to yourself and others. Very effective for reducing anger, loneliness, and social anxiety.</p>
+                </div>
+                <div style="background:white;border-radius:10px;padding:1.25rem;box-shadow:var(--shadow-sm);">
+                  <h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Yoga Nidra (Yogic Sleep)</h4>
+                  <p style="font-size:0.85rem;margin:0;color:var(--text-medium);">A guided relaxation technique deeply rooted in Indian tradition. 30 minutes of Yoga Nidra equals 3 hours of regular sleep for rest.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MENTAL WELLNESS CARDS ===== -->
+    <section class="section bg-gray" aria-labelledby="wellness-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Daily Wellness</span>
+          <h2 class="section-title" id="wellness-heading">Mental Wellness Practices</h2>
+          <p class="section-subtitle">Small daily habits protect your mental health long-term. Check how you're doing in each area of mental wellness.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#e8f4fd;">😴</div>
+              <h4>Sleep Quality</h4>
+            </div>
+            <p>Poor sleep and mental health issues are closely linked. People with insomnia are 10x more likely to develop depression. Aim for 7–9 hours of restful sleep each night.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:75%;"></div></div>
+            <div class="wellness-bar-label"><span>Poor</span><span>Optimal</span></div>
+          </div>
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#f0fff4;">🤸</div>
+              <h4>Physical Activity</h4>
+            </div>
+            <p>Exercise is a proven treatment for mild to moderate depression and anxiety. Even a 20-minute walk produces mood-lifting effects lasting up to 12 hours after exercise.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:60%;"></div></div>
+            <div class="wellness-bar-label"><span>Sedentary</span><span>Active</span></div>
+          </div>
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#fff9e6;">👥</div>
+              <h4>Social Connection</h4>
+            </div>
+            <p>Loneliness is as harmful to health as smoking 15 cigarettes a day. Maintaining meaningful relationships — even a few close ones — significantly protects mental health.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:50%;"></div></div>
+            <div class="wellness-bar-label"><span>Isolated</span><span>Connected</span></div>
+          </div>
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#fdf0f0;">🧘</div>
+              <h4>Stress Management</h4>
+            </div>
+            <p>Chronic, unmanaged stress shrinks the hippocampus (memory centre) and weakens immunity. Learning to manage stress is one of the most valuable health skills you can develop.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:40%;background:linear-gradient(90deg,var(--accent-red),var(--accent-orange));"></div></div>
+            <div class="wellness-bar-label"><span>High Stress</span><span>Calm</span></div>
+          </div>
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#f0fff4;">🙏</div>
+              <h4>Gratitude Practice</h4>
+            </div>
+            <p>Writing down 3 things you're grateful for daily can rewire your brain toward positivity. Gratitude practice has been shown to increase happiness by up to 25% within weeks.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:65%;"></div></div>
+            <div class="wellness-bar-label"><span>Not Practicing</span><span>Daily</span></div>
+          </div>
+
+          <div class="wellness-check-card">
+            <div class="wellness-check-header">
+              <div class="wellness-check-icon" style="background:#faf0ff;">🎯</div>
+              <h4>Purpose & Goals</h4>
+            </div>
+            <p>Having a sense of purpose and meaningful goals is strongly linked to better mental health and longer life. Find what gives your life meaning — work, family, creativity, or service.</p>
+            <div class="wellness-bar"><div class="wellness-bar-fill" style="width:70%;"></div></div>
+            <div class="wellness-bar-label"><span>Directionless</span><span>Purposeful</span></div>
+          </div>
+
+        </div>
+
+        <!-- Warning signs box -->
+        <div style="background:white;border-radius:var(--radius-md);padding:2.5rem;box-shadow:var(--shadow-card);margin-top:3rem;border-left:5px solid var(--accent-red);">
+          <h3 style="margin-bottom:1rem;color:var(--accent-red);">⚠️ Warning Signs — When to Seek Help</h3>
+          <p style="margin-bottom:1.5rem;font-size:0.9rem;color:var(--text-medium);">If you or someone you know is experiencing any of the following persistently (for 2+ weeks), please seek professional help immediately.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0 2rem;" class="warning-signs-grid">
+            <div class="warning-sign"><div class="dot"></div><p>Persistent sadness or feeling empty</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Loss of interest in activities once enjoyed</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Significant changes in appetite or weight</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Difficulty sleeping or sleeping too much</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Feelings of worthlessness or excessive guilt</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Difficulty concentrating or making decisions</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Thoughts of death or self-harm</p></div>
+            <div class="warning-sign"><div class="dot"></div><p>Withdrawing from family and friends</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SUPPORT RESOURCES ===== -->
+    <section class="section bg-light-blue" aria-labelledby="support-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">You're Not Alone</span>
+          <h2 class="section-title" id="support-heading">Mental Health Support Resources</h2>
+          <p class="section-subtitle">Reaching out for help is a sign of strength, not weakness. These resources offer free, confidential support in India.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="support-card">
+            <h4>iCall — TISS</h4>
+            <p>A free mental health support service run by Tata Institute of Social Sciences offering counselling by trained psychology students and professionals.</p>
+            <div class="support-hotline">📞 9152987821</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Mon–Sat, 8 AM – 10 PM</p>
+          </div>
+
+          <div class="support-card">
+            <h4>Vandrevala Foundation</h4>
+            <p>24/7 free helpline providing crisis support, counselling, and referrals for mental health issues across India. Available in multiple Indian languages.</p>
+            <div class="support-hotline">📞 1860-2662-345</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Available 24 hours, 7 days</p>
+          </div>
+
+          <div class="support-card">
+            <h4>NIMHANS Helpline</h4>
+            <p>National Institute of Mental Health and Neuro Sciences provides expert mental health guidance and referrals to specialized care centres nationwide.</p>
+            <div class="support-hotline">📞 080-46110007</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Mon–Sat, 9 AM – 6 PM</p>
+          </div>
+
+          <div class="support-card">
+            <h4>Snehi NGO</h4>
+            <p>Focuses on suicide prevention and emotional support. Provides a safe space to talk without judgment, completely free and confidential.</p>
+            <div class="support-hotline">📞 044-24640050</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Daily, 8 AM – 10 PM</p>
+          </div>
+
+          <div class="support-card">
+            <h4>iCall Online Chat</h4>
+            <p>For those who prefer text-based support, iCall offers online chat counselling. Useful for college students who may be uncomfortable calling.</p>
+            <div class="support-hotline">💬 icallhelpline.org</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Online appointments available</p>
+          </div>
+
+          <div class="support-card">
+            <h4>District Mental Health Programme</h4>
+            <p>Government mental health services available at district hospitals. Psychiatrists and counsellors provide free consultations under the National Mental Health Programme.</p>
+            <div class="support-hotline">🏥 Nearest District Hospital</div>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.4rem;">Free government service</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== POSITIVE QUOTES SECTION ===== -->
+    <section class="quote-section" aria-labelledby="quotes-heading">
+      <div class="container">
+        <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;margin-bottom:2rem;display:inline-block;">Words of Strength</span>
+        <h2 class="section-title" id="quotes-heading" style="color:white;margin-bottom:3rem;">Positive Quotes for Mental Wellness</h2>
+        <div class="grid grid-3" style="text-align:left;">
+          <div class="quote-card">
+            <div class="quote-text">"You don't have to be positive all the time. It's perfectly okay to feel sad, angry, annoyed, frustrated, scared, or anxious. Having feelings doesn't make you a negative person. It makes you human."</div>
+            <div class="quote-author">— Lori Deschene</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">"Mental health is not a destination, but a process. It's about how you drive, not where you're going."</div>
+            <div class="quote-author">— Noam Shpancer, Psychologist</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">"You are not your illness. You have an individual story to tell. You have a name, a history, a personality. Staying yourself is part of the battle."</div>
+            <div class="quote-author">— Julian Seifter</div>
+          </div>
+        </div>
+
+        <!-- Big central quote -->
+        <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,0.15);">
+          <blockquote>"There is hope, even when your brain tells you there isn't."</blockquote>
+          <cite>— John Green, Author</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="alert-banner">
+      <div class="container">
+        <h2>Take One Step Towards Better Mental Health Today</h2>
+        <p>Whether it's calling a friend, taking a walk, or reaching out to a helpline — every step matters. Your mental health is worth fighting for.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn-white">Find Support Near You</a>
+          <a href="lifestyle.html" class="btn btn-white-outline">Healthy Living Tips</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:1rem;display:inline-flex;">
+            <div class="logo-icon">🏥</div>
+            <span style="color:white;"><strong>Health</strong>Portal</span>
+          </a>
+          <p>A public health information portal dedicated to providing accurate health information to every Indian citizen.</p>
+          <div class="disclaimer"><p>⚠️ This website provides general health information only and is not a substitute for professional medical advice. For mental health crises, please call iCall: 9152987821.</p></div>
+          <div class="social-icons" style="margin-top:1.5rem;">
+            <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="diseases.html">🦠 Diseases</a></li>
+            <li><a href="lifestyle.html">🥗 Healthy Lifestyle</a></li>
+            <li><a href="vaccination.html">💉 Vaccination</a></li>
+            <li><a href="mental-health.html">🧠 Mental Health</a></li>
+            <li><a href="contact.html">📞 Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Mental Health Topics</h4>
+          <ul>
+            <li><a href="#">Stress Management</a></li>
+            <li><a href="#">Meditation Guide</a></li>
+            <li><a href="#">Anxiety & Depression</a></li>
+            <li><a href="#">Sleep & Mental Health</a></li>
+            <li><a href="#">Support Resources</a></li>
+            <li><a href="#">Crisis Helplines</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Mental Health Helplines</h4>
+          <p>🧠 iCall (TISS): <strong style="color:white;">9152987821</strong></p>
+          <p style="margin-top:0.5rem;">💚 Vandrevala: <strong style="color:white;">1860-2662-345</strong></p>
+          <p style="margin-top:0.5rem;">🏥 NIMHANS: <strong style="color:white;">080-46110007</strong></p>
+          <p style="margin-top:0.5rem;">🤝 Snehi NGO: <strong style="color:white;">044-24640050</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p><center>© 2025 HealthPortal. College Project - Public Health Initiative.</center></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

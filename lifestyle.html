@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Healthy Lifestyle Guide - Exercise tips, nutrition, sleep habits, BMI calculator and daily wellness routines." />
+  <title>Healthy Lifestyle - HealthPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Water intake visual */
+    .water-tracker {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .water-glass {
+      width: 40px;
+      height: 55px;
+      border: 2.5px solid var(--primary-blue);
+      border-radius: 3px 3px 8px 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .water-glass.filled::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 75%;
+      background: linear-gradient(180deg, #7dd3fc, var(--primary-blue));
+      opacity: 0.7;
+    }
+    .water-glass-label {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 0.3rem;
+      text-align: center;
+    }
+    .water-glass-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Exercise card */
+    .exercise-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .exercise-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .exercise-header {
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .exercise-header .icon { font-size: 2.5rem; }
+    .exercise-header h3 { color: white; font-size: 1.1rem; margin-bottom: 0.2rem; }
+    .exercise-header .duration {
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.25);
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .exercise-body { padding: 1.25rem 1.5rem; flex: 1; }
+    .exercise-body p { font-size: 0.88rem; color: var(--text-medium); margin-bottom: 0.75rem; }
+    .exercise-benefit {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    /* Food plate visual */
+    .food-plate {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .food-item {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      transition: var(--transition);
+    }
+    .food-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .food-item .food-icon { font-size: 2rem; flex-shrink: 0; }
+    .food-item h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .food-item p { font-size: 0.82rem; color: var(--text-light); margin: 0; line-height: 1.5; }
+    @media (max-width: 576px) { .food-plate { grid-template-columns: 1fr; } }
+
+    /* Sleep habit steps */
+    .sleep-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .sleep-step {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .sleep-step:hover { transform: translateX(5px); box-shadow: var(--shadow-md); }
+    .sleep-step-num {
+      width: 42px; height: 42px;
+      background: var(--primary-blue);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .sleep-step-content h4 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .sleep-step-content p { font-size: 0.85rem; color: var(--text-medium); margin: 0; }
+
+    /* BMI color row */
+    .bmi-underweight td:first-child { border-left: 4px solid #17a2b8; }
+    .bmi-normal td:first-child { border-left: 4px solid var(--accent-green); }
+    .bmi-overweight td:first-child { border-left: 4px solid var(--accent-orange); }
+    .bmi-obese td:first-child { border-left: 4px solid var(--accent-red); }
+
+    /* Routine timeline */
+    .routine-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      position: relative;
+    }
+    .routine-timeline::before {
+      content: '';
+      position: absolute;
+      top: 38px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+      border-radius: 2px;
+      z-index: 0;
+    }
+    @media (max-width: 992px) { .routine-timeline { grid-template-columns: repeat(2, 1fr); }
+      .routine-timeline::before { display: none; }
+    }
+    @media (max-width: 576px) { .routine-timeline { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏥</div>
+        <span><strong>Health</strong>Portal</span>
+      </a>
+      <div class="nav-toggle" tabindex="0" role="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="diseases.html">Diseases</a>
+        <a href="lifestyle.html" class="active">Lifestyle</a>
+        <a href="vaccination.html">Vaccination</a>
+        <a href="mental-health.html">Mental Health</a>
+        <a href="contact.html" class="nav-emergency">📞 Emergency</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span>›</span><span>Healthy Lifestyle</span>
+      </nav>
+      <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;">Wellness Guide</span>
+      <h1>Live Healthy, Live Happy</h1>
+      <p>Simple, practical lifestyle tips for a longer, healthier life. From exercise to nutrition to sleep — we've got you covered.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== EXERCISE TIPS ===== -->
+    <section class="section bg-white" aria-labelledby="exercise-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Stay Active</span>
+          <h2 class="section-title" id="exercise-heading">Exercise Tips for Every Day</h2>
+          <p class="section-subtitle">You don't need a gym membership to stay fit. These simple exercises can be done at home and work wonders for your health.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#1d4ed8,var(--primary-blue));">
+              <div class="icon">🚶</div>
+              <div>
+                <h3>Brisk Walking</h3>
+                <span class="duration">⏱ 30 min / day</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>A simple 30-minute brisk walk every day can significantly reduce the risk of heart disease, diabetes, and depression. It's free and needs no equipment.</p>
+              <div class="exercise-benefit">✅ Burns 150–200 calories per session</div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#065f46,#16a34a);">
+              <div class="icon">🧘</div>
+              <div>
+                <h3>Yoga & Stretching</h3>
+                <span class="duration">⏱ 20–45 min / day</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>Yoga improves flexibility, reduces stress, and supports mental health. Even simple stretches each morning can relieve tension and improve posture.</p>
+              <div class="exercise-benefit">✅ Reduces cortisol (stress hormone) by 15%</div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#7c3aed,#9333ea);">
+              <div class="icon">🏋️</div>
+              <div>
+                <h3>Strength Training</h3>
+                <span class="duration">⏱ 3x per week</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>Bodyweight exercises like squats, push-ups, and lunges help build muscle, boost metabolism, and strengthen bones. No gym required.</p>
+              <div class="exercise-benefit">✅ Increases metabolic rate by up to 7%</div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#0e7490,#17a2b8);">
+              <div class="icon">🚴</div>
+              <div>
+                <h3>Cycling</h3>
+                <span class="duration">⏱ 30 min / day</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>Cycling is a great low-impact cardio workout that strengthens legs and improves cardiovascular health. It's also an eco-friendly mode of transport!</p>
+              <div class="exercise-benefit">✅ Improves heart health by 50%</div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#b45309,#d97706);">
+              <div class="icon">🏊</div>
+              <div>
+                <h3>Swimming</h3>
+                <span class="duration">⏱ 30 min / session</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>Swimming works all major muscle groups and is excellent for people with joint problems. It improves endurance, flexibility, and mental well-being.</p>
+              <div class="exercise-benefit">✅ Burns up to 500 calories per hour</div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-header" style="background:linear-gradient(135deg,#be123c,#dc2626);">
+              <div class="icon">🤸</div>
+              <div>
+                <h3>Aerobics / Dance</h3>
+                <span class="duration">⏱ 20–30 min / day</span>
+              </div>
+            </div>
+            <div class="exercise-body">
+              <p>Fun and energetic aerobics or even dancing at home gets your heart pumping, improves mood, and helps maintain a healthy weight. Great for all ages!</p>
+              <div class="exercise-benefit">✅ Elevates mood through endorphin release</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WATER INTAKE ===== -->
+    <section class="section bg-light-blue" aria-labelledby="water-heading">
+      <div class="container">
+        <div class="grid grid-2" style="align-items:center; gap:4rem;">
+
+          <div>
+            <span class="section-label">Stay Hydrated</span>
+            <h2 class="section-title" id="water-heading">Daily Water Intake Guide</h2>
+            <p style="color:var(--text-medium); margin-bottom:1.5rem; line-height:1.8;">
+              Water is essential for every cell in your body. The average adult should drink <strong>8–10 glasses (2–2.5 litres)</strong> of water every day. Dehydration can cause headaches, fatigue, and poor concentration.
+            </p>
+
+            <!-- Visual water glasses -->
+            <div class="water-tracker" role="img" aria-label="8 glasses of water per day tracker">
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">7 AM</div></div>
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">9 AM</div></div>
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">11 AM</div></div>
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">1 PM</div></div>
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">3 PM</div></div>
+              <div class="water-glass-item"><div class="water-glass filled"></div><div class="water-glass-label">5 PM</div></div>
+              <div class="water-glass-item"><div class="water-glass"></div><div class="water-glass-label">7 PM</div></div>
+              <div class="water-glass-item"><div class="water-glass"></div><div class="water-glass-label">9 PM</div></div>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-light); margin-top:0.75rem;">🔵 Filled = goal met &nbsp;|&nbsp; ⬜ Empty = drink more!</p>
+          </div>
+
+          <div>
+            <div class="tip-card" style="margin-bottom:1rem;">
+              <div class="tip-icon">💧</div>
+              <div class="tip-content">
+                <h3>Drink a glass first thing in the morning</h3>
+                <p>Drinking water immediately after waking up kick-starts your metabolism and flushes out toxins.</p>
+              </div>
+            </div>
+            <div class="tip-card" style="margin-bottom:1rem;">
+              <div class="tip-icon">🍉</div>
+              <div class="tip-content">
+                <h3>Eat water-rich fruits and vegetables</h3>
+                <p>Cucumber, watermelon, oranges, and tomatoes have high water content and help with hydration.</p>
+              </div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🚫</div>
+              <div class="tip-content">
+                <h3>Limit sugary drinks and caffeine</h3>
+                <p>Sodas, energy drinks, and excessive coffee can dehydrate you. Replace with water or fresh lime water.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLEEP HABITS ===== -->
+    <section class="section bg-white" aria-labelledby="sleep-heading">
+      <div class="container">
+        <div class="grid grid-2" style="align-items:center; gap:4rem;">
+
+          <div>
+            <span class="section-label">Rest & Recover</span>
+            <h2 class="section-title" id="sleep-heading">Healthy Sleep Habits</h2>
+            <p style="color:var(--text-medium); margin-bottom:2rem; line-height:1.8;">
+              Adults need <strong>7–9 hours of quality sleep</strong> each night. Poor sleep is linked to obesity, heart disease, depression, and weakened immunity. Follow these steps for better sleep.
+            </p>
+            <div class="sleep-steps">
+              <div class="sleep-step">
+                <div class="sleep-step-num">1</div>
+                <div class="sleep-step-content">
+                  <h4>Set a fixed sleep schedule</h4>
+                  <p>Go to bed and wake up at the same time every day — even on weekends. This trains your body clock.</p>
+                </div>
+              </div>
+              <div class="sleep-step">
+                <div class="sleep-step-num">2</div>
+                <div class="sleep-step-content">
+                  <h4>Avoid screens 1 hour before bed</h4>
+                  <p>Blue light from phones and TVs suppresses melatonin. Read a book or do light stretching instead.</p>
+                </div>
+              </div>
+              <div class="sleep-step">
+                <div class="sleep-step-num">3</div>
+                <div class="sleep-step-content">
+                  <h4>Keep your room cool and dark</h4>
+                  <p>A dark, cool environment (18–22°C) helps your body enter deep sleep faster and more easily.</p>
+                </div>
+              </div>
+              <div class="sleep-step">
+                <div class="sleep-step-num">4</div>
+                <div class="sleep-step-content">
+                  <h4>Avoid heavy meals before sleeping</h4>
+                  <p>Eat dinner at least 2–3 hours before bed. Heavy food disrupts sleep and causes acid reflux.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sleep stats -->
+          <div>
+            <div class="bmi-info">
+              <h3 style="margin-bottom:1rem;">😴 Sleep Needs by Age Group</h3>
+              <table class="bmi-table" aria-label="Sleep recommendations by age">
+                <thead>
+                  <tr>
+                    <th>Age Group</th>
+                    <th>Recommended Sleep</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Newborns (0–3 months)</td><td>14–17 hours</td></tr>
+                  <tr><td>Infants (4–11 months)</td><td>12–15 hours</td></tr>
+                  <tr><td>Toddlers (1–2 years)</td><td>11–14 hours</td></tr>
+                  <tr><td>Children (6–13 years)</td><td>9–11 hours</td></tr>
+                  <tr><td>Teenagers (14–17 years)</td><td>8–10 hours</td></tr>
+                  <tr><td>Adults (18–64 years)</td><td>7–9 hours</td></tr>
+                  <tr><td>Older Adults (65+)</td><td>7–8 hours</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HEALTHY FOOD RECOMMENDATIONS ===== -->
+    <section class="section bg-gray" aria-labelledby="food-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Eat Right</span>
+          <h2 class="section-title" id="food-heading">Healthy Food Recommendations</h2>
+          <p class="section-subtitle">A balanced diet is the foundation of good health. Include a variety of these food groups in your daily meals.</p>
+        </div>
+
+        <div class="food-plate">
+          <div class="food-item">
+            <div class="food-icon">🥦</div>
+            <div>
+              <h4>Vegetables (5+ servings/day)</h4>
+              <p>Spinach, brinjal, carrots, tomatoes, capsicum. Rich in fibre, vitamins, and antioxidants that protect your body.</p>
+            </div>
+          </div>
+          <div class="food-item">
+            <div class="food-icon">🍎</div>
+            <div>
+              <h4>Fruits (2–3 servings/day)</h4>
+              <p>Banana, papaya, amla, guava, orange. Packed with vitamins C, A and natural sugars that give clean energy.</p>
+            </div>
+          </div>
+          <div class="food-item">
+            <div class="food-icon">🌾</div>
+            <div>
+              <h4>Whole Grains</h4>
+              <p>Brown rice, ragi, jowar, whole wheat chapati. Rich in fibre, they control blood sugar and keep you full longer.</p>
+            </div>
+          </div>
+          <div class="food-item">
+            <div class="food-icon">🫘</div>
+            <div>
+              <h4>Pulses & Legumes</h4>
+              <p>Dal, rajma, chana, moong. Excellent plant-based protein and fibre. Great for vegetarians and vegans.</p>
+            </div>
+          </div>
+          <div class="food-item">
+            <div class="food-icon">🥛</div>
+            <div>
+              <h4>Dairy (Low-fat)</h4>
+              <p>Milk, curd (dahi), paneer, buttermilk. Good source of calcium and protein. Choose low-fat options.</p>
+            </div>
+          </div>
+          <div class="food-item">
+            <div class="food-icon">🥜</div>
+            <div>
+              <h4>Nuts & Seeds</h4>
+              <p>Almonds, walnuts, flaxseeds, chia seeds. Heart-healthy fats and omega-3 fatty acids. A small handful daily is enough.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Foods to avoid -->
+        <div class="info-box" style="margin-top:2.5rem; background:#fff5f5; border-color:#dc3545;">
+          <div class="icon">🚫</div>
+          <div>
+            <h4 style="color:#dc3545;">Foods to Limit or Avoid</h4>
+            <p>Processed foods, fried snacks, packaged juices, white bread, sugary sodas, excessive salt, and street food cooked in reused oil. These increase risk of obesity, diabetes, and heart disease.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BMI INFORMATION ===== -->
+    <section class="section bg-white" aria-labelledby="bmi-heading">
+      <div class="container">
+        <div class="grid grid-2" style="gap:3rem; align-items:start;">
+
+          <div>
+            <span class="section-label">Know Your Body</span>
+            <h2 class="section-title" id="bmi-heading">Understanding Your BMI</h2>
+            <p style="color:var(--text-medium); line-height:1.8; margin-bottom:1.5rem;">
+              BMI (Body Mass Index) is a simple measure that uses your height and weight to estimate if you have a healthy body weight. It is calculated using the formula below:
+            </p>
+            <div style="background:var(--bg-light-blue); border-radius:var(--radius-md); padding:1.5rem; text-align:center; margin-bottom:1.5rem;">
+              <p style="font-family:var(--font-primary); font-size:1.3rem; font-weight:700; color:var(--primary-blue); margin:0;">
+                BMI = Weight (kg) ÷ Height² (m²)
+              </p>
+              <p style="font-size:0.85rem; color:var(--text-light); margin-top:0.5rem;">Example: 70 kg ÷ (1.70 × 1.70) = 24.2</p>
+            </div>
+            <p style="font-size:0.9rem; color:var(--text-medium); line-height:1.7;">
+              BMI is a screening tool, not a perfect measure of health. Muscle mass, age, and ethnicity can affect results. Always consult a doctor for a complete health assessment.
+            </p>
+          </div>
+
+          <div class="bmi-info">
+            <h3 style="margin-bottom:0.25rem;">BMI Classification Chart</h3>
+            <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:1rem;">(For adults aged 18 and above)</p>
+            <table class="bmi-table" aria-label="BMI classification for adults">
+              <thead>
+                <tr>
+                  <th>BMI Range</th>
+                  <th>Category</th>
+                  <th>Health Risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bmi-underweight"><td>&lt; 18.5</td><td>Underweight</td><td>Moderate</td></tr>
+                <tr class="bmi-normal"><td>18.5 – 24.9</td><td>Normal Weight ✅</td><td>Low</td></tr>
+                <tr class="bmi-overweight"><td>25.0 – 29.9</td><td>Overweight</td><td>Increased</td></tr>
+                <tr class="bmi-obese"><td>30.0 – 34.9</td><td>Obese Class I</td><td>High</td></tr>
+                <tr class="bmi-obese"><td>35.0 – 39.9</td><td>Obese Class II</td><td>Very High</td></tr>
+                <tr class="bmi-obese"><td>≥ 40.0</td><td>Obese Class III</td><td>Extremely High</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DAILY ROUTINE CARDS ===== -->
+    <section class="section bg-light-blue" aria-labelledby="routine-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Your Day</span>
+          <h2 class="section-title" id="routine-heading">Ideal Daily Health Routine</h2>
+          <p class="section-subtitle">Small, consistent habits make the biggest difference. Try to follow this simple daily routine for better overall health.</p>
+        </div>
+
+        <div class="routine-timeline">
+          <div class="routine-card">
+            <div class="time">6:00 AM</div>
+            <div class="routine-icon">🌅</div>
+            <h4>Wake Up & Hydrate</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">Drink a glass of warm water, do light stretching</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">7:00 AM</div>
+            <div class="routine-icon">🏃</div>
+            <h4>Exercise</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">30 min walk, yoga, or workout</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">8:00 AM</div>
+            <div class="routine-icon">🥗</div>
+            <h4>Healthy Breakfast</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">Oats, fruits, eggs, or poha with veggies</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">1:00 PM</div>
+            <div class="routine-icon">🍱</div>
+            <h4>Balanced Lunch</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">Dal, roti, sabzi, salad, curd</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">4:00 PM</div>
+            <div class="routine-icon">🍵</div>
+            <h4>Light Snack</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">Fruits, nuts, or herbal tea</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">7:00 PM</div>
+            <div class="routine-icon">🌙</div>
+            <h4>Light Dinner</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">Light meal, 2–3 hours before sleep</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">9:00 PM</div>
+            <div class="routine-icon">📖</div>
+            <h4>Wind Down</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">No screens, read or meditate</p>
+          </div>
+          <div class="routine-card">
+            <div class="time">10:00 PM</div>
+            <div class="routine-icon">😴</div>
+            <h4>Sleep</h4>
+            <p style="font-size:0.8rem;color:var(--text-light);">7–9 hours of quality sleep</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="alert-banner">
+      <div class="container">
+        <h2>Small Steps. Big Changes.</h2>
+        <p>You don't have to change everything at once. Start with one healthy habit today — drink more water, take a walk, sleep on time — and build from there.</p>
+        <a href="mental-health.html" class="btn btn-white">Explore Mental Wellness →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:1rem;display:inline-flex;">
+            <div class="logo-icon">🏥</div>
+            <span style="color:white;"><strong>Health</strong>Portal</span>
+          </a>
+          <p>A public health information portal dedicated to providing accurate health information to every Indian citizen.</p>
+          <div class="disclaimer"><p>⚠️ This website provides general health information only and is not a substitute for professional medical advice.</p></div>
+          <div class="social-icons" style="margin-top:1.5rem;">
+            <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="diseases.html">🦠 Diseases</a></li>
+            <li><a href="lifestyle.html">🥗 Healthy Lifestyle</a></li>
+            <li><a href="vaccination.html">💉 Vaccination</a></li>
+            <li><a href="mental-health.html">🧠 Mental Health</a></li>
+            <li><a href="contact.html">📞 Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Lifestyle Topics</h4>
+          <ul>
+            <li><a href="">Exercise Guide</a></li>
+            <li><a href="">Water Intake</a></li>
+            <li><a href="">Sleep Health</a></li>
+            <li><a href="">Nutrition Tips</a></li>
+            <li><a href="">BMI Calculator</a></li>
+            <li><a href="">Daily Routine</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Emergency Contacts</h4>
+          <p>🚑 Ambulance: <strong style="color:white;">108</strong></p>
+          <p style="margin-top:0.5rem;">🏥 Health Helpline: <strong style="color:white;">104</strong></p>
+          <p style="margin-top:0.5rem;">👨‍⚕️ Medical Advice: <strong style="color:white;">1800-180-1104</strong></p>
+          <p style="margin-top:1rem;">📧 info@healthindia.gov.in</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p><center>© 2025 HealthPortal. College Project - Public Health Initiative.</center></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

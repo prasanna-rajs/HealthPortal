@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Disease Information - Learn about common diseases, symptoms, causes, and prevention tips." />
+  <title>Disease Information - HealthPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Disease grid - 3 columns */
+    .disease-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    @media (max-width: 992px) { .disease-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .disease-grid { grid-template-columns: 1fr; } }
+
+    /* Color-coded disease banners */
+    .disease-banner-diabetes  { background: linear-gradient(135deg,#1e3a8a,#2563eb); }
+    .disease-banner-hyper     { background: linear-gradient(135deg,#7f1d1d,#dc2626); }
+    .disease-banner-dengue    { background: linear-gradient(135deg,#713f12,#d97706); }
+    .disease-banner-covid     { background: linear-gradient(135deg,#1e3a5f,#0A66C2); }
+    .disease-banner-asthma    { background: linear-gradient(135deg,#14532d,#16a34a); }
+    .disease-banner-heart     { background: linear-gradient(135deg,#6b21a8,#9333ea); }
+
+    .disease-card-banner {
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .disease-card-banner .big-icon {
+      font-size: 3.2rem;
+      line-height: 1;
+    }
+    .disease-card-banner h3 {
+      color: white;
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+    .disease-card-banner .risk-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Symptom tags */
+    .symptom-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .symptom-tag {
+      background: #f0f4ff;
+      color: var(--primary-blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      border: 1px solid #dbeafe;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      align-items: center;
+    }
+    .filter-bar span {
+      font-family: var(--font-primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .filter-btn {
+      padding: 0.4rem 1.2rem;
+      border-radius: var(--radius-full);
+      font-family: var(--font-primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1.5px solid #dde2ea;
+      background: white;
+      color: var(--text-medium);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary-blue);
+      color: white;
+      border-color: var(--primary-blue);
+    }
+
+    /* Did You Know box */
+    .did-you-know {
+      background: linear-gradient(135deg, var(--bg-light-blue), #dbeafe);
+      border-radius: var(--radius-md);
+      padding: 2rem 2.5rem;
+      border-left: 5px solid var(--primary-blue);
+      margin-bottom: 3rem;
+    }
+    .did-you-know .dyk-label {
+      font-family: var(--font-primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary-blue);
+      margin-bottom: 0.5rem;
+    }
+    .did-you-know h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .did-you-know p { font-size: 0.9rem; color: var(--text-medium); margin: 0; }
+
+    /* When to see a doctor strip */
+    .doctor-strip {
+      background: #fff9e6;
+      border: 1.5px solid #fcd34d;
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+    .doctor-strip .icon { font-size: 2rem; flex-shrink: 0; }
+    .doctor-strip p { font-size: 0.9rem; color: var(--text-dark); margin: 0; }
+    .doctor-strip strong { color: var(--primary-dark); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏥</div>
+        <span><strong>Health</strong>Portal</span>
+      </a>
+      <div class="nav-toggle" tabindex="0" role="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="diseases.html" class="active">Diseases</a>
+        <a href="lifestyle.html">Lifestyle</a>
+        <a href="vaccination.html">Vaccination</a>
+        <a href="mental-health.html">Mental Health</a>
+        <a href="contact.html" class="nav-emergency">📞 Emergency</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <header class="page-header" role="banner">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Disease Information</span>
+      </nav>
+      <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;">Health Library</span>
+      <h1>Disease Information Center</h1>
+      <p>Learn about common diseases — their causes, symptoms, and how to prevent them. Knowledge is the first step to better health.</p>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+
+    <!-- Did You Know Banner -->
+    <section class="section-sm bg-white">
+      <div class="container">
+        <div class="did-you-know">
+          <div class="dyk-label">💡 Did You Know?</div>
+          <h3>Non-communicable diseases cause 63% of all deaths in India each year.</h3>
+          <p>Diseases like diabetes, heart disease, and hypertension are largely preventable through lifestyle changes, regular health checkups, and early awareness. Scroll down to learn about the most common ones.</p>
+        </div>
+
+        <!-- Filter bar 
+        <div class="filter-bar">
+          <span>Filter by:</span>
+          <a href="#" class="filter-btn active">All Diseases</a>
+          <a href="#" class="filter-btn">Lifestyle</a>
+          <a href="#" class="filter-btn">Infectious</a>
+          <a href="#" class="filter-btn">Respiratory</a>
+          <a href="#" class="filter-btn">Cardiac</a>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ===== DISEASE CARDS SECTION ===== -->
+    <section class="section bg-gray" aria-labelledby="diseases-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Common Conditions</span>
+          <h2 class="section-title" id="diseases-heading">Know Your Disease</h2>
+          <p class="section-subtitle">Click on any disease card to learn more about symptoms, causes, and prevention strategies.</p>
+        </div>
+
+        <div class="disease-grid">
+
+          <!-- 1. Diabetes -->
+          <div class="disease-card" role="article" aria-label="Diabetes Information">
+            <div class="disease-card-banner disease-banner-diabetes">
+              <div class="big-icon" aria-hidden="true">🩸</div>
+              <div>
+                <h3>Diabetes</h3>
+                <span class="risk-badge">Lifestyle Disease</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>Diabetes is a chronic condition where the body cannot produce or properly use insulin, leading to high blood sugar levels. Type 2 diabetes is the most common form and is closely linked to diet and lifestyle.</p>
+
+              <!-- Symptom tags -->
+              <div class="symptom-tags">
+                <span class="symptom-tag">Frequent urination</span>
+                <span class="symptom-tag">Excessive thirst</span>
+                <span class="symptom-tag">Fatigue</span>
+                <span class="symptom-tag">Blurred vision</span>
+                <span class="symptom-tag">Slow healing</span>
+              </div>
+
+              <!-- Prevention tips -->
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Maintain a healthy body weight</li>
+                  <li>Eat a balanced diet low in sugar &amp; refined carbs</li>
+                  <li>Exercise at least 30 minutes daily</li>
+                  <li>Get regular blood sugar screenings</li>
+                  <li>Avoid smoking and limit alcohol</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Hypertension -->
+          <div class="disease-card" role="article" aria-label="Hypertension Information">
+            <div class="disease-card-banner disease-banner-hyper">
+              <div class="big-icon" aria-hidden="true">❤️</div>
+              <div>
+                <h3>Hypertension</h3>
+                <span class="risk-badge">High Risk</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>Hypertension (high blood pressure) is when blood pressure in arteries is persistently elevated. Often called the "silent killer" because it shows few symptoms but can lead to heart attacks and strokes.</p>
+
+              <div class="symptom-tags">
+                <span class="symptom-tag">Headaches</span>
+                <span class="symptom-tag">Dizziness</span>
+                <span class="symptom-tag">Nosebleeds</span>
+                <span class="symptom-tag">Chest pain</span>
+                <span class="symptom-tag">Shortness of breath</span>
+              </div>
+
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Reduce salt intake to less than 5g per day</li>
+                  <li>Exercise regularly and stay active</li>
+                  <li>Manage stress through relaxation techniques</li>
+                  <li>Limit alcohol and avoid smoking</li>
+                  <li>Monitor blood pressure at home regularly</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Dengue -->
+          <div class="disease-card" role="article" aria-label="Dengue Information">
+            <div class="disease-card-banner disease-banner-dengue">
+              <div class="big-icon" aria-hidden="true">🦟</div>
+              <div>
+                <h3>Dengue Fever</h3>
+                <span class="risk-badge">Infectious</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>Dengue is a mosquito-borne viral infection spread by the Aedes mosquito. It causes a severe flu-like illness and, in some cases, can develop into a potentially lethal complication called severe dengue.</p>
+
+              <div class="symptom-tags">
+                <span class="symptom-tag">High fever</span>
+                <span class="symptom-tag">Severe headache</span>
+                <span class="symptom-tag">Body aches</span>
+                <span class="symptom-tag">Skin rash</span>
+                <span class="symptom-tag">Low platelets</span>
+              </div>
+
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Eliminate stagnant water around your home</li>
+                  <li>Use mosquito repellents and nets</li>
+                  <li>Wear full-sleeved clothing outdoors</li>
+                  <li>Install window and door screens</li>
+                  <li>Seek medical help at first sign of fever</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. COVID-19 -->
+          <div class="disease-card" role="article" aria-label="COVID-19 Information">
+            <div class="disease-card-banner disease-banner-covid">
+              <div class="big-icon" aria-hidden="true">🦠</div>
+              <div>
+                <h3>COVID-19</h3>
+                <span class="risk-badge">Respiratory</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>COVID-19 is an infectious disease caused by the SARS-CoV-2 coronavirus. It primarily affects the respiratory system. Most people recover, but some experience severe illness especially without vaccination.</p>
+
+              <div class="symptom-tags">
+                <span class="symptom-tag">Fever &amp; cough</span>
+                <span class="symptom-tag">Loss of smell</span>
+                <span class="symptom-tag">Breathlessness</span>
+                <span class="symptom-tag">Fatigue</span>
+                <span class="symptom-tag">Body pain</span>
+              </div>
+
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Get fully vaccinated and boosted</li>
+                  <li>Wear a mask in crowded places</li>
+                  <li>Wash hands frequently for 20+ seconds</li>
+                  <li>Maintain social distance when required</li>
+                  <li>Isolate immediately if symptoms appear</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Asthma -->
+          <div class="disease-card" role="article" aria-label="Asthma Information">
+            <div class="disease-card-banner disease-banner-asthma">
+              <div class="big-icon" aria-hidden="true">🫁</div>
+              <div>
+                <h3>Asthma</h3>
+                <span class="risk-badge">Respiratory</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>Asthma is a chronic respiratory condition where the airways become inflamed and narrowed, making it difficult to breathe. Triggers include allergens, pollution, cold air, and exercise.</p>
+
+              <div class="symptom-tags">
+                <span class="symptom-tag">Wheezing</span>
+                <span class="symptom-tag">Chest tightness</span>
+                <span class="symptom-tag">Shortness of breath</span>
+                <span class="symptom-tag">Coughing at night</span>
+              </div>
+
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Identify and avoid your personal triggers</li>
+                  <li>Keep your home free of dust and pet dander</li>
+                  <li>Always carry your prescribed inhaler</li>
+                  <li>Avoid smoking and secondhand smoke</li>
+                  <li>Do breathing exercises (pranayama) daily</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Heart Disease -->
+          <div class="disease-card" role="article" aria-label="Heart Disease Information">
+            <div class="disease-card-banner disease-banner-heart">
+              <div class="big-icon" aria-hidden="true">🫀</div>
+              <div>
+                <h3>Heart Disease</h3>
+                <span class="risk-badge">Critical</span>
+              </div>
+            </div>
+            <div class="disease-card-body">
+              <p>Cardiovascular diseases (CVD) are the leading cause of death globally. Coronary artery disease, heart failure, and arrhythmias are common types. Risk factors include high cholesterol, obesity, and stress.</p>
+
+              <div class="symptom-tags">
+                <span class="symptom-tag">Chest pain</span>
+                <span class="symptom-tag">Palpitations</span>
+                <span class="symptom-tag">Fatigue</span>
+                <span class="symptom-tag">Swollen legs</span>
+                <span class="symptom-tag">Irregular heartbeat</span>
+              </div>
+
+              <div class="prevention-list">
+                <h4>✅ Prevention Tips</h4>
+                <ul>
+                  <li>Eat a heart-healthy diet low in saturated fats</li>
+                  <li>Exercise regularly to keep heart strong</li>
+                  <li>Control blood pressure and cholesterol</li>
+                  <li>Stop smoking — it doubles heart disease risk</li>
+                  <li>Manage stress and sleep 7–8 hours nightly</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end disease-grid -->
+
+        <!-- When to see a doctor note -->
+        <div class="doctor-strip" role="note">
+          <span class="icon" aria-hidden="true">⚠️</span>
+          <p><strong>Important:</strong> The information above is for educational purposes only. If you are experiencing symptoms of any of these conditions, please consult a <strong>qualified healthcare professional</strong> immediately. Do not self-diagnose or self-medicate.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== RISK FACTORS OVERVIEW ===== -->
+    <section class="section bg-white" aria-labelledby="risk-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Stay Safe</span>
+          <h2 class="section-title" id="risk-heading">Common Risk Factors to Watch</h2>
+          <p class="section-subtitle">Many diseases share the same underlying risk factors. By addressing these, you can reduce risk of multiple conditions at once.</p>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="awareness-card">
+            <div class="icon-circle">🚬</div>
+            <h3>Tobacco Use</h3>
+            <p>Smoking is linked to heart disease, stroke, lung cancer, and COPD. Quitting at any age helps.</p>
+          </div>
+          <div class="awareness-card orange">
+            <div class="icon-circle">🍟</div>
+            <h3>Unhealthy Diet</h3>
+            <p>High-fat, high-sugar diets contribute to obesity, diabetes, and cardiovascular disease.</p>
+          </div>
+          <div class="awareness-card green">
+            <div class="icon-circle">🛋️</div>
+            <h3>Physical Inactivity</h3>
+            <p>A sedentary lifestyle increases risk of heart disease, diabetes, and certain cancers.</p>
+          </div>
+          <div class="awareness-card teal">
+            <div class="icon-circle">🍺</div>
+            <h3>Alcohol Abuse</h3>
+            <p>Excessive alcohol damages the liver, increases blood pressure, and raises cancer risk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="alert-banner">
+      <div class="container">
+        <h2>Know the Signs. Act Early. Save Lives.</h2>
+        <p>Early detection and timely treatment can make a life-saving difference. Get a health checkup today and encourage your family to do the same.</p>
+        <a href="contact.html" class="btn btn-white">Find Health Center Near You</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:1rem;display:inline-flex;">
+            <div class="logo-icon">🏥</div>
+            <span style="color:white;"><strong>Health</strong>Portal</span>
+          </a>
+          <p>A public health information portal dedicated to providing accurate health information to every Indian citizen.</p>
+          <div class="disclaimer">
+            <p>⚠️ This website provides general health information only and is not a substitute for professional medical advice.</p>
+          </div>
+          <div class="social-icons" style="margin-top:1.5rem;">
+            <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="diseases.html">🦠 Diseases</a></li>
+            <li><a href="lifestyle.html">🥗 Healthy Lifestyle</a></li>
+            <li><a href="vaccination.html">💉 Vaccination</a></li>
+            <li><a href="mental-health.html">🧠 Mental Health</a></li>
+            <li><a href="contact.html">📞 Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Diseases Covered</h4>
+          <ul>
+            <li><a href="">Diabetes</a></li>
+            <li><a href="">Hypertension</a></li>
+            <li><a href="">Dengue Fever</a></li>
+            <li><a href="">Heart Disease</a></li>
+            <li><a href="">Nutrition Tips</a></li>
+            <li><a href="">Child Health</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Emergency Contacts</h4>
+          <p>🚑 Ambulance: <strong style="color:white;">108</strong></p>
+          <p style="margin-top:0.5rem;">🏥 Health Helpline: <strong style="color:white;">104</strong></p>
+          <p style="margin-top:0.5rem;">👨‍⚕️ Medical Advice: <strong style="color:white;">1800-180-1104</strong></p>
+          <p style="margin-top:1rem;">📧 info@healthindia.gov.in</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p><center>© 2025 HealthPortal. College Project - Public Health Initiative.</center></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

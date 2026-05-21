@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vaccination Awareness - Schedule, benefits, myths vs facts, and child vaccination guidance." />
+  <title>Vaccination Awareness - HealthPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Vaccination hero strip */
+    .vac-hero-strip {
+      background: linear-gradient(135deg, #0d1b2a, var(--primary-blue));
+      padding: 3rem 0;
+    }
+    .vac-stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .vac-stat {
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 1.5rem 1rem;
+    }
+    .vac-stat h3 { color: #7dd3fc; font-size: 2rem; margin-bottom: 0.25rem; }
+    .vac-stat p { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin: 0; }
+    @media (max-width: 768px) { .vac-stats-row { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px) { .vac-stats-row { grid-template-columns: 1fr; } }
+
+    /* Benefit icon cards */
+    .benefit-icon-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      border-top: 4px solid var(--primary-blue);
+    }
+    .benefit-icon-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .benefit-icon-card .icon { font-size: 2.8rem; margin-bottom: 1rem; }
+    .benefit-icon-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .benefit-icon-card p { font-size: 0.85rem; color: var(--text-light); margin: 0; line-height: 1.6; }
+
+    /* Child vaccination age cards */
+    .child-age-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .child-age-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .child-age-header {
+      background: var(--primary-blue);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .child-age-header .age-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-family: var(--font-primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+    }
+    .child-age-header h4 { color: white; font-size: 1rem; }
+    .child-age-body { padding: 1.25rem; }
+    .child-vac-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .child-vac-list li {
+      font-size: 0.85rem;
+      color: var(--text-medium);
+      padding: 0.3rem 0;
+      padding-left: 1.4rem;
+      position: relative;
+      border-bottom: 1px solid #f0f4ff;
+    }
+    .child-vac-list li:last-child { border-bottom: none; }
+    .child-vac-list li::before { content: '💉'; position: absolute; left: 0; font-size: 0.75rem; }
+
+    /* Notice box */
+    .notice-box {
+      background: #e8f4fd;
+      border: 1.5px solid var(--primary-blue);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .notice-box .icon { font-size: 1.5rem; flex-shrink: 0; }
+    .notice-box p { font-size: 0.9rem; color: var(--text-dark); margin: 0; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏥</div>
+        <span><strong>Health</strong>Portal</span>
+      </a>
+      <div class="nav-toggle" tabindex="0" role="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="diseases.html">Diseases</a>
+        <a href="lifestyle.html">Lifestyle</a>
+        <a href="vaccination.html" class="active">Vaccination</a>
+        <a href="mental-health.html">Mental Health</a>
+        <a href="contact.html" class="nav-emergency">📞 Emergency</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span>›</span><span>Vaccination</span>
+      </nav>
+      <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;">Immunization Awareness</span>
+      <h1>Vaccination Saves Lives</h1>
+      <p>Vaccines are one of the most powerful tools we have to prevent disease. Learn about immunization schedules, benefits, and the truth behind common myths.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== VAC STATS STRIP ===== -->
+    <div class="vac-hero-strip">
+      <div class="container">
+        <div class="vac-stats-row">
+          <div class="vac-stat">
+            <h3>2–3M</h3>
+            <p>Deaths prevented annually by vaccines worldwide</p>
+          </div>
+          <div class="vac-stat">
+            <h3>85%</h3>
+            <p>Child immunization coverage target in India</p>
+          </div>
+          <div class="vac-stat">
+            <h3>20+</h3>
+            <p>Life-threatening diseases preventable by vaccines</p>
+          </div>
+          <div class="vac-stat">
+            <h3>Free</h3>
+            <p>Government vaccines under Universal Immunization Programme</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== VACCINATION SCHEDULE TABLE ===== -->
+    <section class="section bg-white" aria-labelledby="schedule-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Immunization Schedule</span>
+          <h2 class="section-title" id="schedule-heading">National Vaccination Schedule</h2>
+          <p class="section-subtitle">India's Universal Immunization Programme (UIP) provides free vaccines for children and pregnant women. Follow this schedule to protect your child.</p>
+        </div>
+
+        <!-- Notice -->
+        <div class="notice-box">
+          <span class="icon">ℹ️</span>
+          <p>This schedule is based on India's Universal Immunization Programme (UIP) guidelines. Consult your child's doctor or nearest government health centre for the most current schedule and any catch-up vaccines needed.</p>
+        </div>
+
+        <!-- Vaccination schedule table -->
+        <div class="vaccine-table-wrap">
+          <table class="vaccine-table" aria-label="National Vaccination Schedule">
+            <thead>
+              <tr>
+                <th>Age</th>
+                <th>Vaccine</th>
+                <th>Disease Protected Against</th>
+                <th>Doses</th>
+                <th>Availability</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>At Birth</td>
+                <td><strong>BCG + OPV 0 + Hep B</strong></td>
+                <td>Tuberculosis, Polio, Hepatitis B</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>6 Weeks</td>
+                <td><strong>OPV 1 + Pentavalent 1 + Rotavirus 1 + IPV 1 + PCV 1</strong></td>
+                <td>Polio, DTP, HiB, Hep B, Rotavirus, Pneumococcal</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>10 Weeks</td>
+                <td><strong>OPV 2 + Pentavalent 2 + Rotavirus 2</strong></td>
+                <td>Polio, DTP+HiB+HepB, Rotavirus</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>14 Weeks</td>
+                <td><strong>OPV 3 + Pentavalent 3 + IPV 2 + Rotavirus 3 + PCV 2</strong></td>
+                <td>Polio, DTP+HiB+HepB, Pneumococcal</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>9 Months</td>
+                <td><strong>MR 1 + OPV Booster + PCV Booster</strong></td>
+                <td>Measles, Rubella, Polio, Pneumococcal</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>12 Months</td>
+                <td><strong>Hep A (1st dose)</strong></td>
+                <td>Hepatitis A</td>
+                <td>1</td>
+                <td><span class="badge badge-blue">Paid (Private)</span></td>
+              </tr>
+              <tr>
+                <td>15 Months</td>
+                <td><strong>MR 2 + MMR</strong></td>
+                <td>Measles, Mumps, Rubella</td>
+                <td>1</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>16–24 Months</td>
+                <td><strong>DPT Booster 1 + OPV Booster</strong></td>
+                <td>Diphtheria, Pertussis, Tetanus, Polio</td>
+                <td>1 each</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>5–6 Years</td>
+                <td><strong>DPT Booster 2</strong></td>
+                <td>Diphtheria, Pertussis, Tetanus</td>
+                <td>1</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>10 Years</td>
+                <td><strong>Td Vaccine</strong></td>
+                <td>Tetanus, Diphtheria</td>
+                <td>1</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>Pregnant Women</td>
+                <td><strong>Td (2 doses)</strong></td>
+                <td>Tetanus, Diphtheria (protects mother &amp; baby)</td>
+                <td>2</td>
+                <td><span class="badge badge-green">Free (Govt)</span></td>
+              </tr>
+              <tr>
+                <td>Adults (Annual)</td>
+                <td><strong>Influenza (Flu) Vaccine</strong></td>
+                <td>Seasonal Influenza</td>
+                <td>1/year</td>
+                <td><span class="badge badge-orange">Paid (Recommended)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BENEFITS OF VACCINES ===== -->
+    <section class="section bg-gray" aria-labelledby="benefits-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Why Vaccinate?</span>
+          <h2 class="section-title" id="benefits-heading">Benefits of Vaccination</h2>
+          <p class="section-subtitle">Vaccines do much more than protect individuals — they protect entire communities. Here's why vaccination matters.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="benefit-icon-card">
+            <div class="icon">🛡️</div>
+            <h3>Individual Protection</h3>
+            <p>Vaccines train your immune system to recognize and fight specific pathogens, preventing you from getting seriously ill.</p>
+          </div>
+          <div class="benefit-icon-card" style="border-top-color:var(--accent-green);">
+            <div class="icon">👨‍👩‍👧‍👦</div>
+            <h3>Herd Immunity</h3>
+            <p>When enough people are vaccinated, disease spread slows. This protects babies, elderly, and immunocompromised people who cannot be vaccinated.</p>
+          </div>
+          <div class="benefit-icon-card" style="border-top-color:var(--accent-orange);">
+            <div class="icon">💰</div>
+            <h3>Cost-Effective</h3>
+            <p>Prevention is always cheaper than treatment. Vaccines save families enormous medical expenses and prevent lost wages from illness.</p>
+          </div>
+          <div class="benefit-icon-card" style="border-top-color:var(--accent-teal);">
+            <div class="icon">🌍</div>
+            <h3>Eliminate Diseases</h3>
+            <p>Smallpox was eradicated globally through vaccination. Polio is nearly eliminated in India. We can do this with other diseases too.</p>
+          </div>
+          <div class="benefit-icon-card" style="border-top-color:#9333ea;">
+            <div class="icon">🏫</div>
+            <h3>School & Work Continuity</h3>
+            <p>Vaccinated children miss fewer school days. Vaccinated adults miss less work. Healthier communities are more productive.</p>
+          </div>
+          <div class="benefit-icon-card" style="border-top-color:var(--accent-red);">
+            <div class="icon">🧬</div>
+            <h3>Prevent Antibiotic Resistance</h3>
+            <p>By preventing bacterial infections, vaccines reduce unnecessary antibiotic use, slowing the development of drug-resistant superbugs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MYTH VS FACTS ===== -->
+    <section class="section bg-white" aria-labelledby="myth-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">The Truth About Vaccines</span>
+          <h2 class="section-title" id="myth-heading">Myth vs. Fact</h2>
+          <p class="section-subtitle">Misinformation about vaccines is dangerous. Here are the most common myths — and the real facts backed by science.</p>
+        </div>
+
+        <div class="grid grid-2">
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>Vaccines cause autism in children.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Multiple large-scale studies involving millions of children have found absolutely no link between vaccines and autism. The original study making this claim was retracted and the doctor lost his medical license.</p>
+            </div>
+          </div>
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>Natural immunity is always better than vaccine-induced immunity.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Getting a disease to gain immunity can be dangerous or even fatal. Vaccines provide safe immunity without the risks of the actual illness. For many diseases, vaccine immunity is more reliable and longer-lasting.</p>
+            </div>
+          </div>
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>Vaccines contain harmful ingredients like mercury that are toxic to children.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Vaccine ingredients are tested extensively for safety. Thimerosal (a mercury-based preservative) was removed from most childhood vaccines years ago. The amounts that remain in some vaccines are far below any harmful level.</p>
+            </div>
+          </div>
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>If diseases are already rare, we don't need to vaccinate anymore.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Diseases are rare precisely because of vaccination. If we stop vaccinating, diseases come back — as seen with measles outbreaks in countries that saw reduced vaccine coverage.</p>
+            </div>
+          </div>
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>Vaccines can give you the very disease they are meant to prevent.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Most modern vaccines use inactivated (killed) viruses or just parts of the pathogen. These cannot cause disease. Some use weakened forms that can rarely cause mild symptoms in immunocompromised individuals.</p>
+            </div>
+          </div>
+
+          <div class="myth-fact-card">
+            <div class="myth-part">
+              <div class="label">❌ Myth</div>
+              <p>Adults don't need vaccines — they're only for children.</p>
+            </div>
+            <div class="fact-part">
+              <div class="label">✅ Fact</div>
+              <p>Adults need vaccines too. Immunity from childhood vaccines can fade over time. Adults benefit from boosters for Tetanus, Influenza annually, Hepatitis B, and COVID-19, among others.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CHILD VACCINATION AWARENESS ===== -->
+    <section class="section bg-light-blue" aria-labelledby="child-vac-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Child Health</span>
+          <h2 class="section-title" id="child-vac-heading">Child Vaccination Awareness</h2>
+          <p class="section-subtitle">Every child deserves a healthy start in life. Here's what vaccines your child should receive at each stage of early life.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="child-age-card">
+            <div class="child-age-header">
+              <span class="age-badge">Birth – 6 weeks</span>
+              <h4>Newborn Vaccines</h4>
+            </div>
+            <div class="child-age-body">
+              <ul class="child-vac-list">
+                <li>BCG — Tuberculosis (TB)</li>
+                <li>Hepatitis B — Liver disease</li>
+                <li>OPV-0 — Polio prevention</li>
+                <li>Vitamin K — Bleeding prevention</li>
+              </ul>
+              <div style="margin-top:1rem; padding:0.75rem; background:#f0f9ff; border-radius:8px;">
+                <p style="font-size:0.8rem; color:var(--text-medium); margin:0;">💡 These vaccines are given at birth or within the first 6 weeks and are available free at all government hospitals.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="child-age-card">
+            <div class="child-age-header" style="background:var(--accent-green);">
+              <span class="age-badge">6 weeks – 6 months</span>
+              <h4>Infant Vaccines</h4>
+            </div>
+            <div class="child-age-body">
+              <ul class="child-vac-list">
+                <li>DPT/Pentavalent — Diphtheria, Pertussis, Tetanus</li>
+                <li>OPV 1, 2, 3 — Polio</li>
+                <li>Rotavirus — Diarrheal disease</li>
+                <li>IPV — Inactivated Polio Vaccine</li>
+                <li>PCV — Pneumococcal disease</li>
+              </ul>
+              <div style="margin-top:1rem; padding:0.75rem; background:#f0fff4; border-radius:8px;">
+                <p style="font-size:0.8rem; color:var(--text-medium); margin:0;">💡 These protect against the most dangerous infant diseases. Do not skip or delay these critical doses.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="child-age-card">
+            <div class="child-age-header" style="background:var(--accent-orange);">
+              <span class="age-badge">9 months – 2 years</span>
+              <h4>Toddler Vaccines</h4>
+            </div>
+            <div class="child-age-body">
+              <ul class="child-vac-list">
+                <li>MR/MMR — Measles, Mumps, Rubella</li>
+                <li>DPT Booster — Booster dose</li>
+                <li>Hepatitis A — Liver protection</li>
+                <li>Typhoid — Bacterial infection</li>
+                <li>Varicella — Chickenpox</li>
+              </ul>
+              <div style="margin-top:1rem; padding:0.75rem; background:#fff9e6; border-radius:8px;">
+                <p style="font-size:0.8rem; color:var(--text-medium); margin:0;">💡 By age 2, your child should have completed the primary immunization series. Keep the vaccination card safely.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Awareness message -->
+        <div style="text-align:center; margin-top:3rem;">
+          <div style="background:white; border-radius:var(--radius-md); padding:2.5rem; box-shadow:var(--shadow-card); max-width:700px; margin:0 auto;">
+            <div style="font-size:3rem; margin-bottom:1rem;">📋</div>
+            <h3 style="margin-bottom:0.75rem;">Keep Your Child's Vaccination Card Safe</h3>
+            <p style="font-size:0.9rem; color:var(--text-medium);">The vaccination card (immunization record) is a critical document. It helps track which vaccines your child has received and when the next ones are due. Always bring it to every health visit.</p>
+            <a href="contact.html" class="btn btn-primary" style="margin-top:1.25rem; display:inline-block;">Find Vaccination Centre Near You</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="alert-banner">
+      <div class="container">
+        <h2>Protect Your Family. Get Vaccinated Today.</h2>
+        <p>Visit your nearest government health centre or ASHA worker to get free vaccinations for your children. It's simple, safe, and saves lives.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn-white">Find Health Centre</a>
+          <a href="diseases.html" class="btn btn-white-outline">View Disease Info</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:1rem;display:inline-flex;">
+            <div class="logo-icon">🏥</div>
+            <span style="color:white;"><strong>Health</strong>Portal</span>
+          </a>
+          <p>A public health information portal dedicated to providing accurate health information to every Indian citizen.</p>
+          <div class="disclaimer"><p>⚠️ This website provides general health information only and is not a substitute for professional medical advice.</p></div>
+          <div class="social-icons" style="margin-top:1.5rem;">
+            <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="diseases.html">🦠 Diseases</a></li>
+            <li><a href="lifestyle.html">🥗 Healthy Lifestyle</a></li>
+            <li><a href="vaccination.html">💉 Vaccination</a></li>
+            <li><a href="mental-health.html">🧠 Mental Health</a></li>
+            <li><a href="contact.html">📞 Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Vaccine Topics</h4>
+          <ul>
+            <li><a href="#">Schedule & Doses</a></li>
+            <li><a href="#">Child Vaccines</a></li>
+            <li><a href="#">Adult Vaccines</a></li>
+            <li><a href="#">Myth vs Facts</a></li>
+            <li><a href="#">Free Govt Vaccines</a></li>
+            <li><a href="#">COVID-19 Vaccines</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Emergency Contacts</h4>
+          <p>🚑 Ambulance: <strong style="color:white;">108</strong></p>
+          <p style="margin-top:0.5rem;">🏥 Health Helpline: <strong style="color:white;">104</strong></p>
+          <p style="margin-top:0.5rem;">💉 Immunization Info: <strong style="color:white;">1800-180-1104</strong></p>
+          <p style="margin-top:1rem;">📧 info@healthindia.gov.in</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p><center>© 2025 HealthIndia Portal. College Project - Public Health Initiative.</center></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

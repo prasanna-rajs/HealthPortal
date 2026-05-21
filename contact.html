@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Us - Emergency numbers, contact form, location, and FAQ for the HealthIndia Portal." />
+  <title>Contact Us - HealthIndia Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Two-column contact layout */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+
+    /* Contact info sidebar */
+    .contact-info-card {
+      background: linear-gradient(135deg, #0d1b2a, var(--primary-blue));
+      border-radius: var(--radius-md);
+      padding: 2.5rem;
+      color: white;
+    }
+    .contact-info-card h3 { color: white; margin-bottom: 0.5rem; }
+    .contact-info-card > p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; font-size:0.9rem; }
+
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact-detail-icon {
+      width: 42px; height: 42px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-text strong {
+      display: block;
+      color: white;
+      font-family: var(--font-primary);
+      font-size: 0.85rem;
+      margin-bottom: 0.2rem;
+    }
+    .contact-detail-text span {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+    }
+
+    /* Hours table */
+    .hours-table {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hours-table h4 { color: white; margin-bottom: 1rem; }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.85rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: rgba(255,255,255,0.6); }
+    .hours-row .time { color: white; font-weight: 600; }
+    .hours-row .time.closed { color: #fc8181; }
+
+    /* Emergency section */
+    .emergency-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 768px) { .emergency-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .emergency-grid { grid-template-columns: 1fr; } }
+
+    .emergency-number-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      border-top: 4px solid var(--accent-red);
+    }
+    .emergency-number-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .emergency-number-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .emergency-number-card h4 { font-size: 0.9rem; color: var(--text-dark); margin-bottom: 0.3rem; }
+    .emergency-number-card .number {
+      font-family: var(--font-primary);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent-red);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .emergency-number-card p { font-size: 0.78rem; color: var(--text-light); margin: 0; }
+
+    /* Non-emergency blue color */
+    .emergency-number-card.blue { border-top-color: var(--primary-blue); }
+    .emergency-number-card.blue .number { color: var(--primary-blue); }
+    .emergency-number-card.green { border-top-color: var(--accent-green); }
+    .emergency-number-card.green .number { color: var(--accent-green); }
+    .emergency-number-card.teal { border-top-color: var(--accent-teal); }
+    .emergency-number-card.teal .number { color: var(--accent-teal); }
+
+    /* Map placeholder */
+    .map-placeholder {
+      background: linear-gradient(135deg, #dbeafe, var(--bg-light-blue));
+      border-radius: var(--radius-md);
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--primary-blue);
+      text-align: center;
+      padding: 2rem;
+    }
+    .map-placeholder .map-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .map-placeholder h3 { margin-bottom: 0.5rem; }
+    .map-placeholder p { font-size: 0.9rem; color: var(--text-medium); max-width: 350px; }
+
+    /* Location cards */
+    .location-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+    .location-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .location-card .loc-icon {
+      width: 46px; height: 46px;
+      background: var(--bg-light-blue);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .location-card h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .location-card p { font-size: 0.85rem; color: var(--text-medium); margin: 0; }
+
+    /* FAQ accordion-style (CSS only) */
+    .faq-container { max-width: 850px; margin: 0 auto; }
+    .faq-item { background: var(--bg-white); border-radius: var(--radius-md); margin-bottom: 1rem; box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid #eef2f7; }
+    .faq-q {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .faq-q h4 { font-size: 0.95rem; color: var(--text-dark); font-weight: 600; }
+    .faq-q .faq-arrow { color: var(--primary-blue); font-size: 1.2rem; font-weight: 700; flex-shrink: 0; }
+    .faq-a {
+      padding: 0 1.5rem 1.25rem;
+      border-top: 1px solid #eef2f7;
+    }
+    .faq-a p { font-size: 0.9rem; color: var(--text-medium); margin: 0; padding-top: 1rem; line-height: 1.7; }
+
+    /* Form success style */
+    .form-note {
+      background: #f0fff4;
+      border: 1px solid #c6f6d5;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: #155724;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Radio buttons for category */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-medium);
+      cursor: pointer;
+    }
+    .radio-item input[type="radio"] { accent-color: var(--primary-blue); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏥</div>
+        <span><strong>Health</strong>Portal</span>
+      </a>
+      <div class="nav-toggle" tabindex="0" role="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="diseases.html">Diseases</a>
+        <a href="lifestyle.html">Lifestyle</a>
+        <a href="vaccination.html">Vaccination</a>
+        <a href="mental-health.html">Mental Health</a>
+        <a href="contact.html" class="active nav-emergency">📞 Emergency</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span>›</span><span>Contact Us</span>
+      </nav>
+      <span class="section-label" style="background:rgba(255,255,255,0.15);color:white;">Get In Touch</span>
+      <h1>Contact & Emergency Help</h1>
+      <p>Have a health question, need to find a clinic, or looking for emergency support? We're here to help. Please remember: for medical emergencies, always call 108 immediately.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== EMERGENCY NUMBERS SECTION ===== -->
+    <section class="section bg-white" aria-labelledby="emergency-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label" style="background:#fff5f5;color:var(--accent-red);">🚨 Emergency</span>
+          <h2 class="section-title" id="emergency-heading">Emergency Contact Numbers</h2>
+          <p class="section-subtitle">Save these numbers on your phone. In a medical emergency, every second counts. Do not delay — call immediately.</p>
+        </div>
+
+        <div class="emergency-grid">
+
+          <div class="emergency-number-card">
+            <div class="icon">🚑</div>
+            <h4>Ambulance Service</h4>
+            <div class="number">108</div>
+            <p>National emergency ambulance — free service, available 24/7 across India</p>
+          </div>
+
+          <div class="emergency-number-card">
+            <div class="icon">🆘</div>
+            <h4>Emergency Helpline</h4>
+            <div class="number">112</div>
+            <p>Unified emergency response — police, fire, ambulance in one call</p>
+          </div>
+
+          <div class="emergency-number-card">
+            <div class="icon">🏥</div>
+            <h4>Health Helpline</h4>
+            <div class="number">104</div>
+            <p>Free medical advice, health information, and nearest government hospital</p>
+          </div>
+
+          <div class="emergency-number-card blue">
+            <div class="icon">👩‍⚕️</div>
+            <h4>Medical Advice</h4>
+            <div class="number" style="font-size:1.2rem;">1800-180-1104</div>
+            <p>Free toll-free helpline for general medical queries and referrals</p>
+          </div>
+
+          <div class="emergency-number-card green">
+            <div class="icon">🧠</div>
+            <h4>Mental Health</h4>
+            <div class="number" style="font-size:1.2rem;">iCall: 9152987821</div>
+            <p>Vandrevala Foundation 24/7: 1860-2662-345</p>
+          </div>
+
+          <div class="emergency-number-card teal">
+            <div class="icon">👶</div>
+            <h4>Child Helpline</h4>
+            <div class="number">1098</div>
+            <p>CHILDLINE — 24/7 support for children in distress or abuse situations</p>
+          </div>
+
+        </div>
+
+        <!-- Important note -->
+        <div class="info-box" style="margin-top:2.5rem;background:#fff5f5;border-color:var(--accent-red);">
+          <div class="icon">⚠️</div>
+          <div>
+            <h4 style="color:var(--accent-red);">Medical Disclaimer</h4>
+            <p style="margin:0;font-size:0.9rem;">This portal does not provide emergency medical services. If you have a medical emergency, call <strong>102</strong> or go to your nearest hospital's emergency department immediately. Do not use this contact form for emergencies.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT FORM & INFO ===== -->
+    <section class="section bg-gray" aria-labelledby="contact-form-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Write to Us</span>
+          <h2 class="section-title" id="contact-form-heading">Send Us a Message</h2>
+          <p class="section-subtitle">For general health queries, feedback, or suggestions — fill out the form below. We try to respond within 2 working days.</p>
+        </div>
+
+        <div class="contact-layout">
+
+          <!-- Contact Form -->
+          <div class="contact-form" role="form" aria-label="Contact Form">
+            <h3 style="margin-bottom:1.5rem;font-size:1.2rem;">📋 Health Information Request Form</h3>
+
+            <!-- Name row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div class="form-group">
+                <label for="first-name">First Name *</label>
+                <input type="text" id="first-name" name="first_name" placeholder="e.g. Priya" required />
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last_name" placeholder="e.g. Sharma" />
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="priya@example.com" required />
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+              <label for="category">Query Category *</label>
+              <select id="category" name="category" required>
+                <option value="" disabled selected>Select a topic...</option>
+                <option value="disease">Disease Information</option>
+                <option value="lifestyle">Healthy Lifestyle</option>
+                <option value="vaccination">Vaccination</option>
+                <option value="mental-health">Mental Health Support</option>
+                <option value="hospital">Find Hospital / Clinic</option>
+                <option value="feedback">Website Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <!-- State -->
+            <div class="form-group">
+              <label for="state">Your State</label>
+              <select id="state" name="state">
+                <option value="" disabled selected>Select your state...</option>
+                <option>Andhra Pradesh</option>
+                <option>Arunachal Pradesh</option>
+                <option>Assam</option>
+                <option>Bihar</option>
+                <option>Chhattisgarh</option>
+                <option>Goa</option>
+                <option>Gujarat</option>
+                <option>Haryana</option>
+                <option>Himachal Pradesh</option>
+                <option>Jharkhand</option>
+                <option>Karnataka</option>
+                <option>Kerala</option>
+                <option>Madhya Pradesh</option>
+                <option>Maharashtra</option>
+                <option>Manipur</option>
+                <option>Meghalaya</option>
+                <option>Mizoram</option>
+                <option>Nagaland</option>
+                <option>Odisha</option>
+                <option>Punjab</option>
+                <option>Rajasthan</option>
+                <option>Sikkim</option>
+                <option selected>Tamil Nadu</option>
+                <option>Telangana</option>
+                <option>Tripura</option>
+                <option>Uttar Pradesh</option>
+                <option>Uttarakhand</option>
+                <option>West Bengal</option>
+                <option>Delhi</option>
+              </select>
+            </div>
+
+            <!-- Contact preference -->
+            <div class="form-group">
+              <label>Preferred Contact Method</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="contact_pref" value="email" checked /> Email</label>
+                <label class="radio-item"><input type="radio" name="contact_pref" value="phone" /> Phone</label>
+                <label class="radio-item"><input type="radio" name="contact_pref" value="none" /> No reply needed</label>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+              <label for="message">Your Message / Question *</label>
+              <textarea id="message" name="message" placeholder="Describe your health question or feedback in detail. The more information you provide, the better we can help you." required></textarea>
+            </div>
+
+            <!-- Note about non-emergency -->
+            <div class="form-note">
+              ℹ️ This form is for general information requests only. For medical emergencies, please call <strong>108</strong> immediately.
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary" style="width:100%;font-size:1rem;padding:0.9rem;">
+              Send Message →
+            </button>
+            <p style="font-size:0.8rem;color:var(--text-light);margin-top:0.75rem;text-align:center;">
+              We respond within 2 working days. Your information is kept confidential.
+            </p>
+          </div>
+
+          <!-- Contact Info Sidebar -->
+          <div>
+            <div class="contact-info-card">
+              <h3>📍 Get in Touch</h3>
+              <p>Reach out to us through any of these channels. We're here to help with your health information needs.</p>
+
+              <div class="contact-detail-item">
+                <div class="contact-detail-icon">📧</div>
+                <div class="contact-detail-text">
+                  <strong>Email Address</strong>
+                  <span>info@healthindia.gov.in</span>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-detail-icon">📞</div>
+                <div class="contact-detail-text">
+                  <strong>Health Helpline</strong>
+                  <span>1800-180-1104 (Toll Free)</span>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-detail-icon">📍</div>
+                <div class="contact-detail-text">
+                  <strong>Office Address</strong>
+                  <span>Ministry of Health & Family Welfare, Nirman Bhavan, New Delhi – 110011</span>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-detail-icon">💬</div>
+                <div class="contact-detail-text">
+                  <strong>Online Portal</strong>
+                  <span>mohfw.gov.in</span>
+                </div>
+              </div>
+
+              <!-- Office hours -->
+              <div class="hours-table">
+                <h4>🕐 Office Hours</h4>
+                <div class="hours-row">
+                  <span class="day">Monday – Friday</span>
+                  <span class="time">9:00 AM – 5:30 PM</span>
+                </div>
+                <div class="hours-row">
+                  <span class="day">Saturday</span>
+                  <span class="time">9:00 AM – 1:00 PM</span>
+                </div>
+                <div class="hours-row">
+                  <span class="day">Sunday</span>
+                  <span class="time closed">Closed</span>
+                </div>
+                <div class="hours-row">
+                  <span class="day">Public Holidays</span>
+                  <span class="time closed">Closed</span>
+                </div>
+                <div class="hours-row">
+                  <span class="day">Health Helpline (104)</span>
+                  <span class="time">24 / 7</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LOCATION SECTION ===== -->
+    <section class="section bg-white" aria-labelledby="location-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Find Us</span>
+          <h2 class="section-title" id="location-heading">Health Centre Locations</h2>
+          <p class="section-subtitle">Government health centres across India provide free primary healthcare services. Find the one nearest to you.</p>
+        </div>
+
+        <div class="grid grid-2" style="gap:3rem;align-items:start;">
+
+          <!-- Map placeholder -->
+          <div>
+            <div class="map-placeholder" role="img" aria-label="Map placeholder showing health centre locations across India">
+              <div class="map-icon">🗺️</div>
+              <h3>Interactive Map</h3>
+              <p>In a real implementation, an interactive Google Maps embed would show nearby government health centres, hospitals, and vaccination centres.</p>
+              <a href="https://www.google.com/maps/search/government+hospital+near+me" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:1.25rem;">Open Google Maps →</a>
+            </div>
+          </div>
+
+          <!-- Location cards -->
+          <div>
+            <h3 style="margin-bottom:1.5rem;">🏥 Types of Health Centres</h3>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+
+              <div class="location-card">
+                <div class="loc-icon">🏘️</div>
+                <div>
+                  <h4>Sub-Centre (SC)</h4>
+                  <p>First point of contact between the health system and community. Serves 3,000–5,000 people in rural areas. Handles basic maternal and child health services.</p>
+                </div>
+              </div>
+
+              <div class="location-card">
+                <div class="loc-icon">🏥</div>
+                <div>
+                  <h4>Primary Health Centre (PHC)</h4>
+                  <p>Provides curative, preventive, and promotive healthcare to rural populations of ~30,000 people. Handles OPD, lab tests, and inpatient care.</p>
+                </div>
+              </div>
+
+              <div class="location-card">
+                <div class="loc-icon">🏨</div>
+                <div>
+                  <h4>Community Health Centre (CHC)</h4>
+                  <p>Serves ~120,000 people with specialist care including surgery, gynaecology, paediatrics, and medicine. Has 30 inpatient beds.</p>
+                </div>
+              </div>
+
+              <div class="location-card">
+                <div class="loc-icon">🏛️</div>
+                <div>
+                  <h4>District Hospital</h4>
+                  <p>Referral hospital for the entire district. Offers full specialist services, ICU, emergency care, and advanced diagnostics. Fully subsidized for BPL patients.</p>
+                </div>
+              </div>
+
+              <div class="location-card">
+                <div class="loc-icon">🩺</div>
+                <div>
+                  <h4>Ayushman Arogya Mandir</h4>
+                  <p>Formerly Health &amp; Wellness Centres — provide comprehensive primary healthcare including yoga, mental health, and NCD screening. Over 1.7 lakh centres across India.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ SECTION ===== -->
+    <section class="section bg-gray" aria-labelledby="faq-heading">
+      <div class="container">
+        <div class="text-center mb-3">
+          <span class="section-label">Questions & Answers</span>
+          <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
+          <p class="section-subtitle">Here are answers to the most common questions we receive about health services, this portal, and accessing healthcare in India.</p>
+        </div>
+
+        <div class="faq-container">
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>Is the health information on this portal medically verified?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>Yes. All health information on HealthIndia Portal is based on guidelines from the World Health Organization (WHO), the Ministry of Health & Family Welfare (MoHFW), and peer-reviewed medical sources. However, this portal provides general information only and cannot replace a consultation with a qualified medical professional. Always consult a doctor for personal health advice.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>How do I find a government hospital near me?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>You can find the nearest government health facility by: (1) Calling the National Health Helpline at 104, (2) Visiting the eSanjeevani portal at esanjeevaniopd.in for tele-consultation, (3) Using Google Maps to search "government hospital near me", or (4) Contacting your local ASHA (Accredited Social Health Activist) worker in rural areas.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>Are the vaccines listed here available for free in India?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>Under India's Universal Immunization Programme (UIP), vaccines marked "Free (Govt)" in our schedule are available at no cost at all government health centres, PHCs, CHCs, and district hospitals. Some vaccines for optional or newer diseases may only be available at private clinics at a cost. Consult your doctor or ASHA worker for details on what is available free in your area.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>What should I do in a medical emergency?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>In a medical emergency: (1) Call 102 immediately for an ambulance or 112 for unified emergency services. (2) Keep the person calm and lying down if possible. (3) Do not give any food or water unless specifically instructed. (4) If trained in first aid, perform CPR only if the person is unconscious and not breathing. (5) Rush to the nearest hospital emergency department. Do NOT use this website's contact form for emergencies.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>Can I get mental health support online in India?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>Yes. Several platforms offer free or affordable online mental health support in India: (1) iCall by TISS — free counselling at 9152987821, (2) Vandrevala Foundation — 24/7 crisis support at 1860-2662-345, (3) eSanjeevani — free government tele-consultation portal including mental health, (4) iCall Online Chat at icallhelpline.org, and (5) YourDOST and Wysa for app-based mental wellness support.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>How can I contribute to or suggest content for this portal?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>We welcome feedback and suggestions! Use the contact form above to suggest new topics, report inaccurate information, or propose collaboration. If you are a healthcare professional and would like to contribute verified health content, please email us at info@healthindia.gov.in with your credentials. All submitted content is reviewed by our health information team before publication.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q">
+              <h4>How is the Ayushman Bharat scheme different from regular government healthcare?</h4>
+              <span class="faq-arrow">+</span>
+            </div>
+            <div class="faq-a">
+              <p>Ayushman Bharat – Pradhan Mantri Jan Arogya Yojana (PM-JAY) is the world's largest government-funded health insurance scheme. It provides ₹5 lakh per year per family for secondary and tertiary hospitalization to ~10.7 crore poor and vulnerable families. Regular government hospitals offer free or subsidized outpatient care for all. PM-JAY specifically covers hospitalization costs at empanelled government AND private hospitals. Check your eligibility at pmjay.gov.in.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BOTTOM CTA ===== -->
+    <section class="alert-banner">
+      <div class="container">
+        <h2>Still Have Questions? We're Here to Help.</h2>
+        <p>Your health matters to us. Reach out through any channel and our team will get back to you with accurate, helpful information as soon as possible.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="tel:104" class="btn btn-white">📞 Call 104 (Health Helpline)</a>
+          <a href="diseases.html" class="btn btn-white-outline">Browse Health Topics</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:1rem;display:inline-flex;">
+            <div class="logo-icon">🏥</div>
+            <span style="color:white;"><strong>Health</strong>Portal</span>
+          </a>
+          <p>A public health information portal dedicated to providing accurate health information to every Indian citizen.</p>
+          <div class="disclaimer"><p>⚠️ This website provides general health information only and is not a substitute for professional medical advice. For emergencies, call 102.</p></div>
+          <div class="social-icons" style="margin-top:1.5rem;">
+            <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="diseases.html">🦠 Diseases</a></li>
+            <li><a href="lifestyle.html">🥗 Healthy Lifestyle</a></li>
+            <li><a href="vaccination.html">💉 Vaccination</a></li>
+            <li><a href="mental-health.html">🧠 Mental Health</a></li>
+            <li><a href="contact.html">📞 Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Options</h4>
+          <ul>
+            <li><a href="#">Send a Message</a></li>
+            <li><a href="#">Find Nearby Hospital</a></li>
+            <li><a href="#">Emergency Numbers</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Feedback</a></li>
+            <li><a href="#">Partner With Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Emergency Contacts</h4>
+          <p>🚑 Ambulance: <strong style="color:white;">108</strong></p>
+          <p style="margin-top:0.5rem;">🆘 Emergency (All): <strong style="color:white;">112</strong></p>
+          <p style="margin-top:0.5rem;">🏥 Health Helpline: <strong style="color:white;">104</strong></p>
+          <p style="margin-top:0.5rem;">👶 Child Helpline: <strong style="color:white;">1098</strong></p>
+          <p style="margin-top:0.5rem;">🧠 Mental Health: <strong style="color:white;">9152987821</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p><center>© 2025 HealthPortal. College Project - Public Health Initiative.</center></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
