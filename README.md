@@ -23,4 +23,16 @@ A responsive healthcare information portal featuring disease awareness, vaccinat
 # Screenshots
 
 ### Homepage 
+Modern healthcare landing page with navigation and quick-access sections.
 ![Home Page](Screenshots/Homepage.png)
+
+### Disease Information
+Interactive disease cards displaying symptoms and prevention tips.
+![Disease Page](Screenshots/Diseases-page.png)
+
+###
+Daily hydration and healthy living recommendations.
+
+###
+BMI classification chart with educational health information.
+
